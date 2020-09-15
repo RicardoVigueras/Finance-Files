@@ -1,0 +1,40 @@
+def binary_call_payoff(K, S_T):
+    if S_T >= K:
+        return 1.0
+    else:
+        return 0.0
+def gbm(S, v, r, T):
+    return S * exp((r - 0.5 * v**2) * T + v * sqrt(T) * random.gauss(0,1.0))
+import random
+from math import exp, sqrt
+
+def gbm(S, v, r, T):
+    return S * exp((r - 0.5 * v**2) * T + v * sqrt(T) * random.gauss(0,1.0))
+
+def binary_call_payoff(K, S_T):
+    if S_T >= K:
+        return 1.0
+    else:
+        return 0.0
+
+# parameters
+S = 100.0 # asset price
+v = .20 # vol of 20%
+r = 0.05 # rate of 5%
+maturity = 1.0
+K = 100.0 # ATM strike
+simulations = 1550
+payoffs = 0.0
+
+# run simulation
+for i in range(simulations):
+    S_T = gbm(S, v, r, maturity)
+    payoffs += binary_call_payoff(K, S_T)
+
+# find prices
+option_price = exp(-r * maturity) * (payoffs / float(simulations))
+print('Price: %.8f' % option_price)
+
+
+
+
